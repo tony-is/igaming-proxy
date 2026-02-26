@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "igaming-proxy.fullname" . }}-config
+  labels:
+    {{- include "igaming-proxy.labels" . | nindent 4 }}
+data:
+  routing-rules.yaml: |
+    {{- .Files.Get "configs/routing-rules.yaml" | nindent 4 }}
+  providers.yaml: |
+    {{- .Files.Get "configs/providers.yaml" | nindent 4 }}
+  compliance-rules.yaml: |
+    {{- .Files.Get "configs/compliance-rules.yaml" | nindent 4 }}

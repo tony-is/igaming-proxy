@@ -1,0 +1,43 @@
+regions:
+  - name: EU
+    countries: ["DE", "FR", "ES", "IT", "NL", "SE", "FI", "DK", "PT", "AT"]
+    default_provider: provider_a
+    license: MGA
+    allowed_providers: ["provider_a", "provider_c"]
+    restrictions:
+      max_bet_eur: 1000
+      self_exclusion_check: true
+      reality_check_interval_minutes: 60
+
+  - name: UK
+    countries: ["GB"]
+    default_provider: provider_b
+    license: UKGC
+    allowed_providers: ["provider_b"]
+    restrictions:
+      max_bet_gbp: 500
+      affordability_check: true
+      self_exclusion_check: true
+      gamstop_integration: true
+
+  - name: LATAM
+    countries: ["BR", "MX", "CO", "AR", "CL", "PE"]
+    default_provider: provider_c
+    license: LOCAL
+    allowed_providers: ["provider_c", "provider_a"]
+    restrictions:
+      kyc_required: true
+
+  - name: APAC
+    countries: ["PH", "JP", "KR"]
+    default_provider: provider_d
+    license: PAGCOR
+    allowed_providers: ["provider_d"]
+    restrictions:
+      kyc_required: true
+      session_time_limit_minutes: 240
+
+  - name: BLOCKED
+    countries: ["US", "AU", "SG", "HK", "CN", "IR", "KP"]
+    action: block
+    block_message: "Service not available in your jurisdiction"

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: igaming-proxy
+description: Multi-Region Routing & Compliance-Aware Proxy for iGaming
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

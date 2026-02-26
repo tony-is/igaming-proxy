@@ -1,0 +1,60 @@
+providers:
+  - id: provider_a
+    name: "Evolution Gaming"
+    licenses: ["MGA", "LOCAL"]
+    game_types: ["live_casino", "slots"]
+    base_url: "https://api.evolutiongaming.com"
+    health_check: "/health"
+    timeout_ms: 5000
+    retry_count: 3
+    auth:
+      type: api_key
+      header: "X-API-Key"
+    circuit_breaker:
+      threshold: 5
+      timeout_seconds: 30
+
+  - id: provider_b
+    name: "Pragmatic Play"
+    licenses: ["UKGC"]
+    game_types: ["slots", "virtual_games"]
+    base_url: "https://api.pragmaticplay.net"
+    health_check: "/health"
+    timeout_ms: 3000
+    retry_count: 2
+    auth:
+      type: bearer_token
+      header: "Authorization"
+    circuit_breaker:
+      threshold: 3
+      timeout_seconds: 60
+
+  - id: provider_c
+    name: "Playtech"
+    licenses: ["MGA", "LOCAL"]
+    game_types: ["live_casino", "slots", "sports"]
+    base_url: "https://api.playtech.com"
+    health_check: "/health"
+    timeout_ms: 4000
+    retry_count: 3
+    auth:
+      type: hmac
+      header: "X-HMAC-Signature"
+    circuit_breaker:
+      threshold: 4
+      timeout_seconds: 45
+
+  - id: provider_d
+    name: "Asia Gaming"
+    licenses: ["PAGCOR"]
+    game_types: ["live_casino", "virtual_games"]
+    base_url: "https://api.asiagaming.com"
+    health_check: "/health"
+    timeout_ms: 6000
+    retry_count: 3
+    auth:
+      type: api_key
+      header: "X-API-Key"
+    circuit_breaker:
+      threshold: 5
+      timeout_seconds: 30
