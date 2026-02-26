@@ -1,0 +1,29 @@
+global:
+  min_age: 18
+  kyc_required: true
+  aml_check: true
+  responsible_gaming: true
+
+jurisdiction_overrides:
+  UKGC:
+    enhanced_kyc: true
+    source_of_funds_check: true
+    affordability_assessment: true
+    gamstop_check: true
+    marketing: opt_in_only
+    audit_retention_years: 7
+
+  MGA:
+    self_exclusion_registry: true
+    reality_check: true
+    audit_retention_years: 5
+
+  PAGCOR:
+    min_age: 21
+    enhanced_kyc: true
+    local_bank_verification: true
+    audit_retention_years: 10
+
+blocked_payment_methods:
+  - method: credit_card
+    countries: ["GB", "DE"]

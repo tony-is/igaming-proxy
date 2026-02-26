@@ -1,0 +1,62 @@
+version: "3.9"
+
+networks:
+  proxy-net:
+    driver: bridge
+
+services:
+  gateway:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+    ports:
+      - "8080:8080"
+    environment:
+      - CONFIG_DIR=/app/configs
+      - GEOIP_DB_PATH=/data/GeoLite2-Country.mmdb
+      - JWT_SECRET=${JWT_SECRET:-changeme}
+    volumes:
+      - ../configs:/app/configs:ro
+      - geoip-data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - proxy-net
+
+  prometheus:
+    image: prom/prometheus:v2.50.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    networks:
+      - proxy-net
+
+  grafana:
+    image: grafana/grafana:10.3.0
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+    networks:
+      - proxy-net
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - proxy-net
+
+volumes:
+  geoip-data:

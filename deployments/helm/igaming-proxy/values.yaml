@@ -1,0 +1,50 @@
+replicaCount: 3
+
+image:
+  repository: igaming-proxy
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: igaming-proxy.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: igaming-proxy-tls
+      hosts:
+        - igaming-proxy.example.com
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+config:
+  jwtSecret: ""
+  geoipDbPath: /data/GeoLite2-Country.mmdb
+  configDir: /app/configs
+  auditOutputType: stdout
+
+geoip:
+  volume:
+    claimName: geoip-pvc
